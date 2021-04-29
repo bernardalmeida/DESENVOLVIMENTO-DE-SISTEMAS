@@ -1,0 +1,400 @@
+package sample.model;
+
+public abstract class Pessoa {
+    private String nome;
+    private String cpf;
+    private Endereco endereco;
+
+    public Pessoa(String nome){
+        this.nome = nome;
+    }
+    public Pessoa(String nome, String cpf){
+        this.nome = nome;
+        this.cpf = cpf;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public String getCpf() {
+        return cpf;
+    }
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+    public Endereco getEndereco() {
+        return endereco;
+    }
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+    public void setEndereco(String rua, int numero){
+        Endereco endereco = new Endereco();
+        endereco.setRua(rua);
+        endereco.setNumero(numero);
+        this.endereco = endereco;
+    }
+
+    public String toString(){
+        return nome
+                + ", CPF: "+ cpf
+                + "\n" + endereco;
+    }
+}
+
+package sample.model;
+
+public class Endereco {
+    private String rua;
+    private int numero;
+
+    public String getRua() {
+        return rua;
+    }
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+    public int getNumero() {
+        return numero;
+    }
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    @Override
+    public String toString() {
+        return "Endereco:" + rua +
+                ", nº: " + numero;
+    }
+}
+
+package sample.model;
+
+public class Cliente extends Pessoa{
+    private String email;
+
+    public Cliente(String nome) {
+        super(nome);
+    }
+    public Cliente(String nome, String cpf){
+        super(nome, cpf);
+    }
+    public Cliente(String nome, String cpf, String email){
+        super(nome, cpf);
+        this.email = email;
+    }
+}
+
+
+package sample;
+
+import sample.model.Cliente;
+import sample.model.Pessoa;
+
+public class Main{
+
+    public static void main(String[] args) {
+
+        Cliente cliente1 = new Cliente("Emílio Santiago");
+        cliente1.setCpf("200.900.111-90");
+        cliente1.setEndereco("Sete de setembro", 12);
+        Cliente cliente2 = new Cliente("Raul Seixas", "888.999.111.90");
+        Cliente cliente3 = new Cliente("Dom Pedro I", "1-01", "pedrao@brasil.br");
+        System.out.println(cliente1);
+        System.out.println(cliente2);
+        System.out.println(cliente3);
+    }
+}
+
+package sample.model;
+
+public class Produto {
+    private String nome;
+    private double preco;
+
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public double getPreco() {
+        return preco;
+    }
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public String toString(){
+        return nome + ", R$: " + preco;
+    }
+}
+
+package sample.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ItensDoPedido {
+    private List<Produto> produtos;
+    private double total;
+
+    public ItensDoPedido(){
+        produtos = new ArrayList<>();
+    }
+
+    public double getTotal(){ return  total; }
+    public List<Produto> getProdutos(){
+        return produtos;
+    }
+    public void setProduto(String nome, double preco){
+        Produto produto = new Produto();
+        produto.setNome(nome);
+        produto.setPreco(preco);
+        this.produtos.add(produto);
+        total += preco;
+    }
+
+    public void setProduto(Produto produto){
+        this.produtos.add(produto);
+        total += produto.getPreco();
+    }
+
+    public String toString(){
+        return produtos + "\nTotal: " + total;
+    }
+}
+
+package sample.model;
+
+import java.util.ArrayList;
+
+public class Pedido {
+    private String data;
+    private ItensDoPedido itens;
+    private Cliente cliente;
+
+    public Pedido(){
+        itens = new ItensDoPedido();
+    }
+
+    public void setProduto(String nome, double preco){
+        itens.setProduto(nome, preco);
+    }
+
+    public ItensDoPedido getItens(){
+        return itens;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public String toString(){
+        return "NOVO PEDIDO\nData da Compra: " + data + "\n" +itens + "\nCliente: " + cliente ;
+    }
+}
+
+package sample;
+
+import sample.model.Cliente;
+import sample.model.Pedido;
+import sample.model.Pessoa;
+import sample.model.Produto;
+
+public class Main{
+
+    public static void main(String[] args) {
+
+        /*
+
+
+
+        Cliente cliente1 = new Cliente("Emílio Santiago");
+        cliente1.setCpf("200.900.111-90");
+        cliente1.setEndereco("Sete de setembro", 12);
+        Cliente cliente2 = new Cliente("Raul Seixas", "888.999.111.90");
+        cliente2.setEndereco("Quinze de novembro", 101);
+        Cliente cliente3 = new Cliente("Dom Pedro I", "1-01", "pedrao@brasil.br");
+        cliente3.setEndereco("Vinte e Cinco de Março", 150);
+        System.out.println(cliente1 + "\n");
+        System.out.println(cliente2 + "\n");
+        System.out.println(cliente3 + "\n");
+
+        Produto produto1 = new Produto();
+        produto1.setNome("Uva");
+        produto1.setPreco(5.8);
+        System.out.println(produto1 + "\n");
+
+        Produto produto2 = new Produto();
+        produto2.setNome("Laranja");
+        produto2.setPreco(2.4);
+        System.out.println(produto2 + "\n");
+
+         */
+        Cliente cliente1 = new Cliente("Emílio Santiago");
+        cliente1.setCpf("200.900.111-90");
+        cliente1.setEndereco("Sete de setembro", 12);
+        cliente1.setEmail("santigo@emilio.br");
+
+        Pedido pedido = new Pedido();
+        pedido.setCliente(cliente1);
+        pedido.setData("22/3/21");
+        pedido.setProduto("Uva", 3.6);
+        pedido.setProduto("Laranja", 2.1);
+        pedido.setProduto("Pera", 3.5);
+
+        System.out.println(pedido);
+
+    }
+}
+
+
+public class Pessoa {
+    private String nome;
+    private String sobrenome;
+    private String email;
+    private String telefone;
+
+    public Pessoa(){}
+    public Pessoa(String nome){
+        this.nome = nome;
+    }
+    public Pessoa(String nome, String sobrenome){
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+    }
+
+
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public String getSobrenome() {
+        return sobrenome;
+    }
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getTelefone() {
+        return telefone;
+    }
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    @Override
+    public String toString() {
+        return nome +
+                " " + sobrenome +
+                ", e-mail:" + email +
+                ", telefone:" + telefone;
+    }
+}
+
+
+package sample.model;
+
+public class Funcionario extends Pessoa{
+    private String funcao;
+    private double salario;
+
+    public Funcionario(){}
+    public Funcionario(String nome){
+        super(nome);
+    }
+    public Funcionario(String nome, String sobrenome){
+        super(nome, sobrenome);
+    }
+
+    public String getFuncao() {
+        return funcao;
+    }
+    public void setFuncao(String funcao) {
+        this.funcao = funcao;
+    }
+    public double getSalario() {
+        return salario;
+    }
+    public void setSalario(double valorHora, double qtdeHora) {
+        this.salario = valorHora * qtdeHora;
+    }
+
+    public String toString(){
+        return super.toString() + "\n"
+                + "Função: " + funcao
+                + "Salário: " + salario;
+    }
+}
+
+
+package sample.model;
+
+public class Cliente extends Pessoa{
+    private String dataCadastro;
+
+    public Cliente(String nome, String sobrenome){
+        super(nome, sobrenome);
+    }
+
+    public String getDataCadastro() {
+        return dataCadastro;
+    }
+    public void setDataCadastro(String dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+    public String toString(){
+        return super.toString() +
+                "\nData de Cadastro: " + dataCadastro;
+    }
+}
+
+
+package sample;
+
+import sample.model.Cliente;
+import sample.model.Funcionario;
+
+public class Main{
+    public static void main(String[] args) {
+        Funcionario pessoa1 = new Funcionario();
+        pessoa1.setNome("Pedro");
+        pessoa1.setSobrenome("Silva");
+        pessoa1.setEmail("pedro@silva.com");
+        pessoa1.setTelefone("48 91234 0991");
+        pessoa1.setFuncao("Gerente");
+        pessoa1.setSalario(30, 160);
+        System.out.println(pessoa1);
+
+        Cliente pessoa2 = new Cliente("Pedro","Vilela");
+        pessoa2.setEmail("pedro@vivlela.com");
+        pessoa2.setDataCadastro("22/3/21");
+        pessoa2.setTelefone("48 9123 9999");
+
+        System.out.println(pessoa2);
+
+    }
+}

@@ -1,0 +1,196 @@
+package sample;
+
+import sample.model.Caminhao;
+import sample.model.Carro;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Carro carro = new Carro("Fiesta");
+        carro.setMarca("Ford", "A empresa.....");
+        carro.setDesc("Carro do prof");
+        carro.setnPortas(4);
+        System.out.println(carro + "\n\n");
+
+        Carro carro2 = new Carro("Palio");
+        carro2.setMarca("Fiat","A empresa.....");
+        carro2.setnPortas(4);
+        System.out.println(carro2 + "\n\n");
+
+        Caminhao caminhao = new Caminhao("S460");
+        caminhao.setMarca("Scania", "A empresa.....");
+        caminhao.setnEixos(6);
+        System.out.println(caminhao + "\n\n");
+
+    }
+}
+
+
+package sample.model;
+
+public class Caminhao extends Veiculo{
+
+    private int nEixos;
+
+    /**
+     * Construtor da classe
+     *
+     * @param nome
+     */
+    public Caminhao(String nome) {
+        super(nome);
+    }
+
+    /**
+     * Get e set
+     */
+    public int getnEixos() {
+        return nEixos;
+    }
+    public void setnEixos(int nEixos) {
+        this.nEixos = nEixos;
+    }
+
+    @Override
+    public String toString(){
+        return super.toString() + "número de eixos: " + nEixos;
+    }
+}
+
+package sample.model;
+
+/**
+ * Class carro
+ */
+public final class Carro extends Veiculo{
+
+    /**
+     * Atributo
+     */
+    private int nPortas;
+
+    /**
+     * Construtor de carro
+     */
+    public Carro(String nome){
+        super(nome);
+    }
+
+    /**
+     * Get número de portas
+     * @return número de portas
+     */
+    public int getnPortas() {
+        return nPortas;
+    }
+    /**
+     * Informar o número de portas
+     * @param nPortas
+     */
+    public void setnPortas(int nPortas) {
+        this.nPortas = nPortas;
+    }
+
+    /**
+     * Imprimir o objeto
+     */
+    @Override
+    public String toString() {
+        return super.toString()
+        + "Número de Portas: " + nPortas;
+    }
+}
+
+package sample.model;
+
+/**
+ * Classe marca
+ */
+public class Marca {
+    /**
+     * Atribtuos
+     */
+    private String nome;
+    private String desc;
+
+    /**
+     * Getters and setters
+     */
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public String getDesc() {
+        return desc;
+    }
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    /**
+     * ToString
+     */
+    @Override
+    public String toString(){
+        return "Marca: " + nome
+                +  ((desc == null) ? "" : desc + "\n");
+    }
+}
+
+package sample.model;
+
+/**
+ * Classe abstrata veículo
+ */
+public abstract class Veiculo {
+    /**
+     * Atributos
+     */
+    private String nome;
+    private Marca marca;
+    private String desc;
+
+    /**
+     * Construtor da classe
+     * @param nome
+     */
+    public Veiculo(String nome){
+        this.nome = nome;
+    }
+    //Getters e setters
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public Marca getMarca() {
+        return marca;
+    }
+    public void setMarca(String nome, String descricao) {
+        Marca marca = new Marca();
+        marca.setNome(nome);
+        marca.setDesc(descricao);
+        this.marca = marca;
+    }
+    public String getDesc() {
+        return desc;
+    }
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    /**
+     * ToString da classe
+     * @return string do objeto
+     */
+    @Override
+    public String toString() {
+        return nome + ", " + marca
+                + ((desc == null) ? "" : desc + "\n");
+    }
+
+}

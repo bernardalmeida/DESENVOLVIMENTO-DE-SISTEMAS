@@ -1,0 +1,187 @@
+package sample.model;
+
+import java.util.Random;
+
+/**
+ * Class Dado
+ */
+public class Dado {
+    /**
+     * Atributo
+     */
+    private int face;
+
+    /**
+     * Construturo inicializando com zero no valor da face
+     */
+    public Dado(){
+        face = 0;
+    }
+
+    /**
+     * Lançar dado e gerar número randomicamente
+     */
+    public void lancar(){
+        Random random = new Random();
+        //random = 7 => 0,1,2,3,4,5,6
+        while (face == 0) face = random.nextInt(7);
+    }
+
+    /**
+     * Pegar o valor da face
+     */
+    public int getFace(){
+        return face;
+    }
+
+    /**
+     * Imprimir
+     */
+    public String toString(){
+        return String.valueOf(this.face);
+    }
+}
+
+
+package sample.model;
+
+/**
+ * Classe Jogador
+ */
+public class Jogador {
+    /**
+     * Atributo
+     */
+    private String nome;
+    private boolean venceu;
+    private int totalPontos;
+
+    /**
+     * Getters and setters
+     */
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public boolean isVenceu(){
+        return this.venceu;
+    }
+
+    public void setVenceu(boolean venceu){
+        this.venceu = venceu;
+    }
+
+    public int getTotalPontos(){
+        return this.totalPontos;
+    }
+
+    public void setTotalPontos(int totalPontos){
+        this.totalPontos = totalPontos;
+    }
+
+    /**
+     *toString
+     */
+    public String toString(){
+        return "Jogador: " + nome
+                + ", " + (venceu ? "ganhou o jogo" : "perdeu o jogo")
+                + ", pontos:" + totalPontos;
+    }
+
+}
+
+
+package sample.controller;
+
+import sample.model.Dado;
+import sample.model.Jogador;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Classe tabuleiro
+ */
+public class Tabuleiro {
+
+    /**
+     * Atirbutos
+     */
+    List<Jogador> jogadores;
+
+    /**
+     * Construtor
+     */
+    public Tabuleiro(List<String> nomesJogadores){
+        jogadores = new ArrayList<>();
+
+        for (int i = 0; i < nomesJogadores.size() ; i++) {
+            Jogador jogador = new Jogador();
+            jogador.setNome(nomesJogadores.get(i));
+            jogadores.add(jogador);
+        }
+
+    }
+
+    /**
+     * Iniciar rodada
+     */
+    public void jogar(){
+        //loop na lista de jogadores
+        for(int i = 0; i < jogadores.size(); i++){
+            //para cada jogador cria-se 2 dados
+            Dado dado1 = new Dado();
+            Dado dado2 = new Dado();
+            dado1.lancar();
+            dado2.lancar();
+            //calcular total dos valores da face e salvar em jogador
+            jogadores.get(i).setTotalPontos(dado1.getFace() + dado2.getFace());
+            boolean venceu = jogadores.get(i).getTotalPontos() == 7;
+            jogadores.get(i).setVenceu(venceu);
+        }
+
+    }
+
+    /**
+     * Imprimir
+     */
+    public String toString(){
+        return jogadores.toString();
+    }
+
+
+}
+
+
+package sample;
+
+import sample.controller.Tabuleiro;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+
+    public static void main(String[] args) {
+        List<String> nomes =
+                new ArrayList<>();
+        nomes.add("Maria");
+        nomes.add("João");
+        nomes.add("Pedro");
+        nomes.add("Rafael");
+        nomes.add("Marcia");
+        nomes.add("Laura");
+        nomes.add("Jhow");
+
+        Tabuleiro tabuleiro =
+                new Tabuleiro(nomes);
+
+        tabuleiro.jogar();
+        System.out.println(tabuleiro);
+
+    }
+}

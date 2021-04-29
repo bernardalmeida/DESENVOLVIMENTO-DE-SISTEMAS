@@ -1,0 +1,230 @@
+package sample.model;
+
+public class Contato {
+    //atributo
+    private String whatsapp;
+    private String email;
+    private String twitter;
+
+    //getters e setters
+
+    public String getWhatsapp() {
+        return whatsapp;
+    }
+
+    public void setWhatsapp(String whatsapp) {
+        this.whatsapp = whatsapp;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
+    }
+
+    //toString
+    public String toString(){
+        return "Whatsapp: " + whatsapp
+                + " E-mail: " + email
+                + " Twitter: " + twitter;
+    }
+}
+
+
+package sample.model;
+
+public class Pessoa {
+    //atributos
+    private String nome;
+    private Contato contato;
+
+    public Pessoa(String nome){
+        this.nome = nome;
+        contato = new Contato();
+    }
+
+    //getters e setters
+    public String getNome() {
+        return nome;
+    }
+    public Contato getContato() {
+        return contato;
+    }
+    public void setContato(String whatsapp, String email, String twitter){
+        contato.setWhatsapp(whatsapp);
+        contato.setTwitter(twitter);
+        contato.setEmail(email);
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    //toString
+    @Override
+    public String toString(){
+        return "Nome: " + this.nome + ", " + contato;
+    }
+}
+
+
+package sample;
+
+import sample.model.Pessoa;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Pessoa pessoa = new Pessoa("Marcelina");
+        pessoa.setContato("89-999-11111", "email@email", "não tenho");
+        System.out.println(pessoa);
+
+    }
+}
+
+
+package sample.model;
+
+public class Pedido {
+    private String desc;
+    private String data;
+    private double total;
+    private ItensDoPedido itens;
+
+    public Pedido(){
+        itens = new ItensDoPedido();
+    }
+    public String getDesc() {
+        return desc;
+    }
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+    public String getData() {
+        return data;
+    }
+    public void setData(String data) {
+        this.data = data;
+    }
+    public double getTotal() {
+        return total;
+    }
+    public void addProduto(String nomeProduto, double preco){
+        itens.setProduto(nomeProduto, preco);
+        total += preco;
+    }
+
+    public String toString(){
+        return "Pedido\n"
+                +  desc
+                + " Data: " + data + "\n"
+                + itens
+                + "\nTotal:" + total;
+    }
+}
+
+
+package sample.model;
+
+public class Produto {
+    private String nome;
+    private double preco;
+
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public double getPreco() {
+        return preco;
+    }
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto: " +
+                nome +
+                ", preço R$" + preco;
+    }
+}
+
+
+package sample.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ItensDoPedido {
+    private List<Produto> produtos;
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProduto(Produto produto){
+        if(this.produtos == null){
+            this.produtos = new ArrayList<>();
+        }
+
+        produtos.add(produto);
+    }
+
+    public void setProduto(String nomeProduto, double preco) {
+        if(this.produtos == null){
+            this.produtos = new ArrayList<>();
+        }
+
+        Produto produto = new Produto();
+        produto.setNome(nomeProduto);
+        produto.setPreco(preco);
+        this.produtos.add(produto);
+    }
+
+    @Override
+    public String toString() {
+        return produtos.toString();
+    }
+}
+
+package sample;
+
+import sample.model.ItensDoPedido;
+import sample.model.Pedido;
+import sample.model.Produto;
+
+public class Main {
+
+    public static void main(String[] args) {
+//
+//        ItensDoPedido itensDoPedido = new ItensDoPedido();
+//
+//        Produto produto = new Produto();
+//        produto.setNome("Laranja");
+//        produto.setPreco(2.4);
+//        itensDoPedido.setProduto(produto);
+//
+//        itensDoPedido.setProduto("Uva", 4.7);
+//        System.out.println(itensDoPedido);
+
+        Pedido pedido = new Pedido();
+        pedido.setDesc("iFood");
+        pedido.setData("11/3/21");
+        pedido.addProduto("Uva", 5.4);
+        pedido.addProduto("Laranja", 2.6);
+        pedido.addProduto("Banana", 1.6);
+
+        System.out.println(pedido);
+    }
+}
